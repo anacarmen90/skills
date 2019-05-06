@@ -1,0 +1,31 @@
+AppBundle\Entity\ZUser:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        dn:
+            type: string
+            length: 255
+        fullName:
+            type: string
+            length: 255
+        employeeId:
+            type: string
+            length: 50
+        isAvailable:
+            type: boolean
+            default: false
+
+    oneToMany:
+        skills:
+            targetEntity: SkillsBundle\Entity\UserSkill
+            mappedBy: user
+            fetch: EAGER
+        endorsements:
+            targetEntity: SkillsBundle\Entity\Endorsement
+            mappedBy: endorsee
+            fetch: EAGER
+

@@ -1,0 +1,21 @@
+---
+- name: Development machine provisioning
+  hosts: dev
+
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - ../vars/dev.yml
+    - vars/common.yml
+    - vars/dev.yml
+
+  roles:
+    - server
+    - mysql
+    - php
+    - nginx
+    - composer
+    - apps
+    - letsencrypt

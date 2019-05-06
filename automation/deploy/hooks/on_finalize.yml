@@ -1,0 +1,28 @@
+---
+# On finalize deploy custom tasks.
+
+- block:
+    - name: Set permissions for the web user on writable resources
+      acl:
+        name: "{{ deploy_helper.new_release_path }}/{{ item[0] }}"
+        recursive: yes
+        entity: "{{ php_fpm.user }}"
+        default: "{{ item[1] }}"
+        etype: user
+        permissions: rwx
+        state: present
+      with_nested:
+        - "{{ project_writable_resources }}"
+        - [yes, no]
+
+    - name: Set permissions masks on writable resources
+      acl:
+        name: "{{ deploy_helper.new_release_path }}/{{ item }}"
+        recursive: yes
+        default: yes
+        etype: mask
+        permissions: rwx
+        state: present
+      with_items: "{{ project_writable_resources }}"
+
+  when: project_change_dirs_config|default(true)

@@ -1,0 +1,4 @@
+---
+project_deploy_key: local/id_rsa
+project_owner: vagrant
+project_group: vagrant

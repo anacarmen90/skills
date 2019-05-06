@@ -1,0 +1,17 @@
+---
+- name: Deploy Zitec Ansible roles
+  hosts: localhost
+
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  tasks:
+    - name: Install Git
+      package: name=git state=installed
+
+    - name: Clone repository
+      git: repo=https://git.zitec.ro/internal-it/ansible-roles.git dest=/etc/ansible/zitec-roles version=master
+
+    - name: Ansible default roles should be a symlink to zitec roles
+      file: path=/etc/ansible/roles src=/etc/ansible/zitec-roles/roles state=link force=yes

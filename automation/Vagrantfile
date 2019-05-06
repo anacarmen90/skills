@@ -1,0 +1,42 @@
+Vagrant.configure(2) do |config|
+	config.vm.box      = "bento/ubuntu-16.04"
+	config.vm.hostname = "wdyk"
+	config.vm.network "private_network", ip: "192.168.33.135"
+
+	config.vm.provider "virtualbox" do |vb|
+		vb.memory = "2048"
+		vb.cpus = 2
+		vb.name = "wdyk"
+	end
+
+	# Deploy Zitec ansible roles before any other provisioning
+	config.vm.provision "ansible_local" do |ansible|
+		ansible.playbook = "provision/deploy-zitec-roles.yml"
+		ansible.limit = "localhost"
+    	ansible.inventory_path = "inventories/hosts"
+	end
+
+	# Provision the machine (install software prerequisites)
+	config.vm.provision "ansible_local" do |ansible|
+		ansible.playbook = "provision/local.yml"
+		ansible.limit = "localhost"
+		ansible.inventory_path = "inventories/hosts"
+	end
+
+	# Install samba in the virtual machine
+	config.vm.provision "ansible_local" do |ansible|
+		ansible.playbook = "provision/samba.yml"
+		ansible.limit = "localhost"
+		ansible.inventory_path = "inventories/hosts"
+	end
+
+	# Deploy the application on the VM
+    config.vm.provision "ansible_local" do |ansible|
+        ansible.playbook = "deploy/local.yml"
+        ansible.limit = "localhost"
+    	ansible.inventory_path = "inventories/hosts"
+        ansible.raw_arguments  = [
+          "--extra-vars=\"branch=master\""
+        ]
+    end
+end

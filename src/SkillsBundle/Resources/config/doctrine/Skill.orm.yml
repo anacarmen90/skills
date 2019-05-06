@@ -1,0 +1,39 @@
+SkillsBundle\Entity\Skill:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+
+    indexes:
+        search_index:
+            columns: [name, description]
+            flags: fulltext
+
+    fields:
+        name:
+            type: string
+            length: 50
+
+        description:
+            type: string
+            length: 300
+
+        tips:
+            type: text
+
+    manyToMany:
+        categories:
+            targetEntity: SkillsBundle\Entity\Category
+            inversedBy: skills
+            cascade: ["persist", "remove"]
+            fetch: EAGER
+            joinTable:
+                name: skills_categories
+                joinColumns:
+                    skill_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    category_id:
+                        referencedColumnName: id

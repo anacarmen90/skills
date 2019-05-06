@@ -1,0 +1,11 @@
+---
+# Post finalize deploy custom tasks.
+
+- name: Update database schema
+  command: "php bin/console doctrine:schema:update --force"
+  args:
+    chdir: "{{ deploy_helper.new_release_path }}"
+  environment: "{{ project_environment }}"
+
+- name: Clear the opcache
+  service: name={{ php_fpm.service_name }} state=reloaded

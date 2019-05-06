@@ -1,0 +1,14 @@
+---
+# Installs the applications.
+
+- name: Install the applications
+  include: app.yml
+  with_dict: "{{ apps }}"
+  loop_control:
+    loop_var: app
+
+- name: Make sure Nginx has access to the certificate store
+  file: path=/etc/ssl state=directory mode="u=rwx,g=rx,o=rx" recurse=yes
+
+- name: Restart Nginx to make the new configurations available
+  service: name=nginx state=restarted

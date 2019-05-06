@@ -1,0 +1,27 @@
+
+analytics:
+    resource: "@AnalyticsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+skills:
+    resource: '@SkillsBundle/Resources/config/routing.yml'
+
+app:
+    resource: '@AppBundle/Resources/config/routing.yml'
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+admin_area:
+    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+
+simple_things_entity_audit:
+    resource: "@SimpleThingsEntityAuditBundle/Resources/config/routing.yml"
+    prefix: /audit
+  

@@ -1,0 +1,5 @@
+database:
+  host: 127.0.0.1
+  user: wdyk
+  password: 12345
+  name: wdyk

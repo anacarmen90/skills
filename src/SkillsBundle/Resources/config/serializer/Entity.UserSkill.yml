@@ -1,0 +1,6 @@
+SkillsBundle\Entity\UserSkill:
+    exclusion_policy: none #all
+    maxDepth: 2
+    properties:
+        id:
+            exclude: true

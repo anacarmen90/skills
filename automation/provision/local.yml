@@ -1,0 +1,20 @@
+---
+- name: Local machine provisioning
+  hosts: localhost
+
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - ../vars/local.yml
+    - vars/common.yml
+    - vars/local.yml
+
+  roles:
+    - server
+    - mysql
+    - php
+    - nginx
+    - composer
+    - apps

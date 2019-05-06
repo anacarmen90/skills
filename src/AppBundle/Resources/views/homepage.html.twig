@@ -1,0 +1,206 @@
+{% extends('base.html.twig') %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/bundles/skills/css/style2.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+{% endblock %}
+
+{% block body %}
+
+    <section class="head">
+        {% block header %}
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><div class="logo"><img src="/bundles/skills/images/skills-logo.png" /></div></a>
+                </div>
+                {% if app.user %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/analytics">Analytics</a></li>
+                        <li><a href="/knowledge">Profile</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="container text-center">
+            <h2 class="main-description-text text-center">Technical and contextual self assessment. Identify your strong and weak points and keep track of your growth.</h2>
+
+            {% if app.user %}
+                <div class="account-state-action logout"><a href="/logout" class="account-state-button">Logout</a></div>
+            {% else %}
+                <div class="account-state-action login">
+                    <div id="login_modal_link">
+
+                        <a id="show-modal" @click="showModal = true" class="login-button account-state-button">Login here <span style="padding-left: 10px;" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+
+                        <!-- use the modal component, pass in the prop -->
+                        <modal v-if="showModal" @close="showModal = false">
+                            <h3 slot="header">Login with your AD account</h3>
+                        </modal>
+                    </div>
+
+
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+
+    {% if not app.user %}
+        {% if error is defined and error %}
+            <div>{{ loginForm['error'].messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <!-- template for the modal component -->
+        <script type="text/x-template" id="modal-template">
+            <transition name="modal">
+                <div class="modal-mask">
+                    <div class="modal-wrapper">
+                        <div class="modal-container">
+
+                            <div class="modal-header">
+                                <slot name="header">
+                                    default header
+                                </slot>
+                            </div>
+
+                            <div class="modal-body">
+                                <slot name="body">
+                                    <span id="ajax-login-error"></span><br/><br/>
+                                    <form id="ajax-login" action="{{ path("fos_user_security_check") }}" method="post">
+                                        {% if login.csrf_token %}
+                                            <input type="hidden" name="_csrf_token" value="{{ login.csrf_token }}" />
+                                        {% endif %}
+
+                                        <label for="username">Username</label>
+                                        <input type="text" placeholder="Username" id="username" name="_username" value="{{ login.last_username }}" required="required" />
+
+                                        <label for="password">Password</label>
+                                        <input type="password" placeholder="Password" id="password" name="_password" required="required" />
+
+                                        <input type="submit" id="_submit" name="_submit" value="Submit" class="btn btn-success">
+                                    </form>
+                                </slot>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </script>
+        <script type="application/javascript" src="{{ asset('/library/vue/dist/vue.js') }}"></script>
+        <script type="application/javascript" src="{{ asset('/bundles/skills/js/LoginComponent.js') }}"></script>
+    {% endif %}
+{% endblock %}
+
+    <section class="skills">
+        <div class="add-belly">
+
+            <div class="container container-rounded-top">
+
+                <form class="search-form">
+                    <select class="search" style="width: 100%"></select>
+                    {#<input type="search" class="search-input" name="" placeholder="Search for a skill">#}
+                    {#<button class="search-submit" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>#}
+                </form>
+
+                <p class="text-center light-grey-text">OR</p>
+                <p class="text-center purple-text">Select from skills list <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></p>
+
+                <div class="skills-list-box">
+                    <div class="row">
+                        <ul class="skill-categories">
+                            {% for category in categories %}
+                                <li id="category{{ category.id }}" class="skill-category pointer" v-on:click="showSkills({{ category.id }})">{{ category.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <ul class="skills-list">
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="users_skills_list" class="skilled-people-list"></div>
+
+            </div>
+        </div>
+    </section>
+    {#json_login_path#}
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+    <script type="text/javascript">
+      jQuery.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+          if (o[this.name]) {
+            if (!o[this.name].push) {
+              o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+          }
+          else {
+            o[this.name] = this.value || '';
+          }
+        });
+        return o;
+      };
+      jQuery(document).ready(function ($) {
+        $('body').on('submit', '#ajax-login', function (e) {
+          jQuery.ajax(
+              {
+                url: '{{ path('json_login_path') }}?_format=json',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify($(this).serializeObject())
+              }
+          ).done(function (data) {
+            if (typeof data.success !== "undefined" && data.success === true) {
+              window.location.reload();
+            }
+          }).fail(function (data) {
+            var error = 'An unknown error occured. Please contact an admin';
+            if (typeof data.responseJSON !== "undefined" && typeof data.responseJSON.error !== "undefined") {
+              error = data.responseJSON.error;
+            }
+            jQuery('#ajax-login-error').text(error);
+          });
+          return false;
+        });
+
+        var $search = $('.search');
+
+        $search.select2({
+          theme: 'bootstrap',
+          placeholder: 'Type to search',
+          ajax: {
+            url: "{{ path('search_suggestions') }}",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+              return {
+                q: params.term
+              }
+            },
+            processResults: function (data, params) {
+              return {
+                results: data
+              }
+            }
+          },
+          cache: true,
+          minimumInputLength: 1
+        });
+
+        $search.on('select2:select', function (e) {
+          console.log(e.params.data);
+        });
+      });
+    </script>
+    <script src="{{ asset('bundles/skills/js/HelpContainerComponent.js') }}"></script>
+{% endblock %}

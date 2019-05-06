@@ -1,0 +1,20 @@
+---
+letsencrypt:
+  webroot_path: /var/www
+  email: wdyk@zitec.com
+  apps:
+    wdyk:
+      servername: wdyk.dev.zitec.ro
+      certificate_path: /etc/ssl/wdyk.crt
+      certificate_key_path: /etc/ssl/wdyk.key
+
+apps:
+  wdyk:
+    docroot: /var/www/wdyk
+    public: /var/www/wdyk/web
+    servername: wdyk.dev.zitec.ro
+    template: wdyk.dev.tpl
+    fastcgi_pass: unix:/var/run/php/php7.1-fpm.sock
+    certificate_path: /etc/ssl/wdyk.crt
+    certificate_key_path: /etc/ssl/wdyk.key
+    htpasswd: wdyk12345

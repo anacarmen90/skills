@@ -1,0 +1,23 @@
+SkillsBundle\Entity\UserSkill:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+              strategy: AUTO
+
+    fields:
+        level:
+            type: smallint
+
+    manyToOne:
+        user:
+            targetEntity: AppBundle\Entity\ZUser
+            inversedBy: skills
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                onDelete: CASCADE
+
+        skill:
+            targetEntity: SkillsBundle\Entity\Skill

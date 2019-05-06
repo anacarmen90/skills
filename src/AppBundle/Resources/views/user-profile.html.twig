@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/bundles/skills/css/style2.css') }}">
+    <link href="{{ asset('bundles/app/css/analytics.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/app/css/know.css') }}" rel="stylesheet">
+    <div class="container-fluid">
+
+    <section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="profile-picture center-block"
+                 style="background-size: cover;background-image: url('/{{ picture }}')">
+            </div>
+            <div class="profile-info center-block">
+                <p class="text-center"><strong>{{ name }}</strong></p>
+            </div>
+        </div>
+        <div class="help-button">
+            <p id="can-help" class="{{ (availability) ? 'true' : 'false' }}" >Disponibilitate</p>
+        </div>
+    </div>
+
+
+    <!-- CONTENT GOES HERE -->
+
+    </section>
+    </div>
+{% endblock %}

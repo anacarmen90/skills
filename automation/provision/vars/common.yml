@@ -1,0 +1,43 @@
+---
+server:
+  packages: [curl, git, vim, nano, wget, unzip, libevent-dev, python-passlib, python-software-properties, nodejs, npm]
+  localization:
+    timezone: Europe/Bucharest
+    locale: en_US.UTF-8
+
+php:
+  repository: ppa:ondrej/php
+  path: /etc/php/7.1
+  service_name: php7.1-fpm
+  package_cli: php7.1-cli
+  package_fpm: php7.1-fpm
+  fpm:
+    user: www-data
+    group: www-data
+    listen_user: nginx
+    listen_group: nginx
+  extensions:
+    - php7.1-mysql
+    - php7.1-bcmath
+    - php7.1-mbstring
+    - php7.1-mcrypt
+    - php7.1-intl
+    - php7.1-curl
+    - php7.1-gd
+    - php7.1-zip
+    - php7.1-xml
+    - php7.1-ldap
+    - php7.1-xdebug
+
+mysql:
+  packages:
+    mysql-server: 5.7*
+    mysql-client: 5.7*
+  root_password:
+  databases: ["{{ database.name }}"]
+  user: "{{ database.user }}"
+  password: "{{ database.password }}"
+  data_dir: /mysql_data
+  service_user: mysql
+  service_group: mysql
+  dump: null

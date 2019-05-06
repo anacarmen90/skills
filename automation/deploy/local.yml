@@ -1,0 +1,15 @@
+---
+- name: Deploy the application on the Vagrant VM
+  hosts: localhost
+
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars_files:
+    - ../vars/local.yml
+    - vars/common.yml
+    - vars/local.yml
+
+  roles:
+    - zitec.local_deploy

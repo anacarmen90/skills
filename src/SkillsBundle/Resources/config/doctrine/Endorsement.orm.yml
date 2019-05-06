@@ -1,0 +1,23 @@
+SkillsBundle\Entity\Endorsement:
+    type: entity
+    id:
+        id:
+            type: integer
+            generator:
+              strategy: AUTO
+
+    manyToOne:
+        endorser:
+            targetEntity: AppBundle\Entity\ZUser
+            fetch: EAGER
+
+        endorsee:
+            targetEntity: AppBundle\Entity\ZUser
+            inversedBy: endorsements
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                onDelete: CASCADE
+
+        skill:
+            targetEntity: SkillsBundle\Entity\Skill

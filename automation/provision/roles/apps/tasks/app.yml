@@ -1,0 +1,39 @@
+---
+# Installs an application.
+
+- name: Create the root folder of the application
+  file:
+    path: "{{ app.value.docroot }}"
+    state: directory
+    recurse: yes
+    owner: "{{ app.value.owner|default(ansible_ssh_user) }}"
+    group: "{{ app.value.group|default(ansible_ssh_user) }}"
+  when: not omit_apps_dirs_config|default(false)
+
+- name: Install a new Symfony application
+  include: symfony.yml
+  when: app.value.symfony is defined
+
+- name: Add the Nginx configuration file
+  template: src={{ app.value.template }} dest=/etc/nginx/sites-available/{{ app.key }}
+
+- block:
+    - name: Add basic authentication configuration
+      template: src=basic-auth.tpl dest=/etc/nginx/conf.d/htpasswd-{{ app.key }}
+
+    - name: Generate the htpasswd file
+      htpasswd:
+        path: /etc/nginx/conf.d/htpasswd-{{ app.key }}-password
+        name: "{{ app.key }}"
+        password: "{{ app.value.htpasswd }}"
+
+  when: app.value.htpasswd is defined
+
+- name: Copy the SSL certificate files
+  copy: src={{ item.src }} dest={{ item.dest }} owner=root group=root
+  with_items:
+    - {src: certificates/default-certificate.crt, dest: "{{ app.value.certificate_path }}"}
+    - {src: certificates/default-key.key, dest: "{{ app.value.certificate_key_path }}"}
+
+- name: Enable the Nginx configuration for the defined app
+  file: src=/etc/nginx/sites-available/{{ app.key }} dest=/etc/nginx/sites-enabled/{{ app.key }} state=link

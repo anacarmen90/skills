@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% set menuLink = "Look for help" %}
+    {{ parent() }}
+
+    <link href="{{ asset('bundles/app/css/know.css') }}" rel="stylesheet">
+    <div class="container-fluid">
+
+        <section class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="profile-picture center-block"
+                         style="background-size: cover;background-image: url('/{{ picture }}')">
+                    </div>
+                    <div class="profile-info center-block">
+                        <p class="text-center"><strong>{{ name }}</strong></p>
+                    </div>
+                </div>
+                <div class="help-button">
+                    <p id="can-help" class="{{ (availability) ? 'true' : 'false' }}" v-on:click="toggleAvail()">Pot
+                        oferi ajutor</p>
+                </div>
+            </div>
+
+            <div class="container">
+
+                <div class="skills-list-box">
+                    <div class="row">
+                        <ul class="skill-categories">
+                            <li class="skill-category active" id="reset-categories" v-on:click="showSkills()">
+                                All skills
+                            </li>
+                            {% for category in categories %}
+                                <li class="skill-category" id="category-li-{{ category.id }}"
+                                    v-on:click="showSkills({{ category.id }})">
+                                    {{ category.name }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="row skills-list-container">
+                        <div class="skills-list skills-list--profile">
+                            {% for skill in skills %}
+                            <div class="skill--profile" data-tags="{{ skill.categories|join('|') }}">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <p class="skill-name--profile"><strong>{{ skill.name }}</strong></p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <form class="skill-grading" id="skill-{{ skill.id }}" action="/lfh/update">
+                                            <div class="grade-level text-center">
+                                                <label for="skill{{ skill.id }}-level1"><span></span>Not at
+                                                    all</label><br>
+                                                <input v-on:change="saveLevel({{ skill.id }}, 1)" type="radio"
+                                                       name="php" id="skill{{ skill.id }}-level1" value="level1"
+                                                        {% if (skill.level is defined and skill.level.level == 1) %}
+                                                            checked
+                                                        {%- endif -%}
+                                                >
+                                            </div>
+                                            <div class="grade-level text-center">
+                                                <label for="skill{{ skill.id }}-level2"><span></span>Just a bit</label>
+                                                <br>
+                                                <input v-on:change="saveLevel({{ skill.id }}, 2)" type="radio"
+                                                       name="php" id="skill{{ skill.id }}-level2" value="level2"
+                                                        {% if (skill.level is defined and skill.level.level == 2) %}
+                                                            checked
+                                                        {%- endif -%}
+                                                >
+                                            </div>
+                                            <div class="grade-level text-center">
+                                                <label for="skill{{ skill.id }}-level3"><span></span>Good</label> <br>
+                                                <input v-on:change="saveLevel({{ skill.id }}, 3)" type="radio"
+                                                       name="php" id="skill{{ skill.id }}-level3" value="level3"
+                                                        {% if (skill.level is defined and skill.level.level == 3) %}
+                                                            checked
+                                                        {%- endif -%}
+                                                >
+                                            </div>
+                                            <div class="grade-level text-center">
+                                                <label for="skill{{ skill.id }}-level4"><span></span>Very good</label>
+                                                <br>
+                                                <input v-on:change="saveLevel({{ skill.id }}, 4)" type="radio"
+                                                       name="php" id="skill{{ skill.id }}-level4" value="level4"
+                                                        {% if (skill.level is defined and skill.level.level == 4) %}
+                                                            checked
+                                                        {%- endif -%}
+                                                >
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <br><br><br><br>
+
+            </div>
+        </section>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/js/knowledge.js') }}"></script>
+{% endblock %}

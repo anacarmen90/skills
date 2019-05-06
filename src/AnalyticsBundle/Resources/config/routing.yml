@@ -1,0 +1,3 @@
+analytics_homepage:
+    path: /analytics
+    defaults: { _controller: AnalyticsBundle:Default:index }

@@ -1,0 +1,36 @@
+search_homepage:
+    path: /search/{searchString}
+    defaults: { _controller: SkillsBundle:AjaxSkill:searchSkill }
+
+search_suggestions:
+    path: /suggest
+    defaults: { _controller: SkillsBundle:AjaxSkill:suggestSkill }
+
+search_skilled:
+    path: /lfh/{skillId}
+    defaults: { _controller: SkillsBundle:AjaxSkill:skilled }
+    requirements:
+        skillId: '\d+'
+
+all_skills:
+    path: /lfh/all
+    defaults: { _controller: SkillsBundle:AjaxSkill:skillCategories }
+
+update_skill:
+    path: /lfh/update
+    methods: [POST]
+    defaults: { _controller: SkillsBundle:AjaxSkill:updateUserSkillLevel }
+
+endorse:
+    path: /endorse/{endorseeId}/{skillId}
+    defaults: { _controller: SkillsBundle:AjaxSkill:endorseUser }
+    requirements:
+        endorseeId: '\d+'
+        skillId: '\d+'
+
+unendorse:
+    path: /unendorse/{endorseeId}/{skillId}
+    defaults: { _controller: SkillsBundle:AjaxSkill:unEndorseUser }
+    requirements:
+        endorseeId: '\d+'
+        skillId: '\d+'

@@ -1,0 +1,31 @@
+services:
+  # Sonata admins
+    admin.category:
+        class: SkillsBundle\Admin\CategoryAdmin
+        arguments: [~, SkillsBundle\Entity\Category, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Category }
+        public: true
+    admin.endorsement:
+        class: SkillsBundle\Admin\EndorsementAdmin
+        arguments: [~, SkillsBundle\Entity\Endorsement, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Endorsements }
+        public: true
+    admin.skill:
+        class: SkillsBundle\Admin\SkillAdmin
+        arguments: [~, SkillsBundle\Entity\Skill, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Skill }
+        public: true
+    admin.user_skill:
+        class: SkillsBundle\Admin\UserSkillAdmin
+        arguments: [~, SkillsBundle\Entity\UserSkill, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, audit: true, label: User Skill }
+        public: true
+
+  # Skill history
+    skills.history.skills_audit_reader:
+        class: SkillsBundle\History\SkillsAuditReader
+        arguments: [ '@simplethings_entityaudit.config', "@doctrine"]

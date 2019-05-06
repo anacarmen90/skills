@@ -1,0 +1,32 @@
+{
+  "name": "wdyk",
+  "version": "1.0.0",
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-select": "^1.12.2",
+    "css-loader": "^0.28.7",
+    "install": "^0.10.1",
+    "jquery": "^3.1.1",
+    "jquery-ui-bundle": "^1.12.1",
+    "moment": "^2.18.1",
+    "npm": "^5.5.1",
+    "underscore": "^1.8.3",
+    "vue": "^2.5.2",
+    "vue-autocomplete": "0.0.2",
+    "vue-collections": "^1.1.4",
+    "vue-loader": "^13.3.0",
+    "vue-resource": "^1.3.4",
+    "vue-selectize": "0.0.3",
+    "vue-template-compiler": "^2.5.2",
+    "vue2-autocomplete-js": "^0.2.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2",
+    "webpack-stream": "^3.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.zitec.ro:6246/andrei.ciovica/wdyk.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,6 @@
+---
+# Installs the Symfony installer.
+
+- name: Get the Symfony installer
+  become: yes
+  get_url: url=http://symfony.com/installer dest=/usr/local/bin/symfony mode=a+x

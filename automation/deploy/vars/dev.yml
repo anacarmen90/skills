@@ -1,0 +1,2 @@
+---
+project_unwanted_items: [.git, web/config.php, web/app.php]

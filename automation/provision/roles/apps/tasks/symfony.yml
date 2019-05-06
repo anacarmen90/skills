@@ -1,0 +1,55 @@
+---
+# Installs a new Symfony application.
+
+- name: Ensure the Symfony installer exists
+  include_role: name=symfony allow_duplicates=false
+
+- name: Install the Symfony app
+  shell: "symfony new symfony_tmp {{ app.value.symfony.version }} && cp -r symfony_tmp/. ./ && rm -rf symfony_tmp"
+  args:
+    chdir: "{{ app.value.docroot }}"
+    creates: app
+
+- name: Configure the app database connection
+  lineinfile:
+    dest: "{{ app.value.docroot }}/app/config/parameters.yml"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "database_host:", line: "    database_host: {{ database.host }}"}
+    - {regexp: "database_name:", line: "    database_name: {{ database.name }}"}
+    - {regexp: "database_user:", line: "    database_user: {{ database.user }}"}
+    - {regexp: "database_password:", line: "    database_password: {{ database.password }}"}
+
+- block:
+    - name: Set the application owner
+      file:
+        path: "{{ app.value.docroot }}"
+        recurse: yes
+        owner: "{{ app.value.owner|default('vagrant') }}"
+        group: "{{ app.value.group|default('vagrant') }}"
+
+    - name: Set permissions for the web user on writable resources
+      acl:
+        name: "{{ app.value.docroot }}/{{ item[0] }}"
+        recursive: yes
+        entity: "{{ app.value.web_user|default('www-data') }}"
+        default: "{{ item[1] }}"
+        etype: user
+        permissions: rwx
+        state: present
+      with_nested:
+        - [var/cache, var/logs, var/sessions, web/bundles]
+        - [yes, no]
+
+    - name: Set permissions masks on writable resources
+      acl:
+        name: "{{ app.value.docroot }}/{{ item }}"
+        recursive: yes
+        default: yes
+        etype: mask
+        permissions: rwx
+        state: present
+      with_items: [var/cache, var/logs, var/sessions, web/bundles]
+
+  when: not omit_apps_dirs_config|default(false)

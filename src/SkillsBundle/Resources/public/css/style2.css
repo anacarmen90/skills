@@ -1,0 +1,254 @@
+body {
+    font-size: 18px;
+    font-family: 'Roboto', Helvetica, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.head {
+    width: 100%;
+    background: url(/image/header-bg-1.png) center top no-repeat;
+    background-size: cover;
+    height: 360px;;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-brand:active,
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:visited {
+    outline: none;
+    text-decoration: none;
+    color: #fff;
+}
+
+
+.navbar {
+    padding: 20px 0;
+}
+
+.navbar-default {
+    background: transparent;
+    border: none;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff !important;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff !important;
+    font-weight: 200;
+    font-size: 16px;
+}
+
+.navbar-knowledge {
+    float: right;
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:active {
+    color: #fff;
+    border: none;
+    outline: none;
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+h2 {
+    font-weight:500;
+    font-size: 30px;
+    color: #fff;
+    margin-top: 100px;
+    margin-bottom: 60px;
+    text-shadow: 2.344px 5.523px 13px rgba(0, 0, 0, 0.3);
+}
+
+.account-state-button {
+    border-radius: 20px;
+    box-shadow: 1.5px 2.5px 29px 0px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    padding: 10px 20px;
+    background: #2bb15a;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.account-state-button:hover,
+.account-state-button:focus,
+.account-state-button:active {
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+    border: 1px solid #fff;
+}
+
+.skills {
+    background: #fff;
+    width: 100%;
+}
+
+.add-belly {
+    position: relative;
+}
+
+.add-belly:before {
+    content: "";
+    position:absolute;
+    top: -50px;
+    left: -15%;
+    display: block;
+    background: #fff;
+    border-top-left-radius: 300% 40%;
+    border-top-right-radius: 300% 40%;
+    width: 130%;
+    z-index: -1;
+}
+
+.search-form {
+    margin: -76px auto 20px auto;
+    width: 100%;
+    height: 60px;
+    max-width: 420px;
+    position: relative;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 1.5px 2.598px 29px 0px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 60px;
+    border: none;
+    margin: 0 auto;
+    color: #ababab;
+    padding: 20px 50px 20px 20px;
+}
+
+.search-submit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #d4d4d4;
+    font-size: 30px;
+    background: none;
+    border: none;
+}
+.search-submit:active,
+.search-submit:focus {
+    outline: none;
+    color: #ababab;
+}
+
+.skills-list-box {
+    margin-top: 20px;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 1.5px 2.598px 29px 0px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    padding: 20px;
+}
+
+.purple-text {
+    color: #3121b0;
+    font-weight: 600;
+}
+
+.light-grey-text {
+    color: #ababab;
+    font-weight: 200;
+}
+
+.skilled-people-list {
+    padding-top: 50px;
+}
+
+.person--avatar {
+    float: left;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 20px;
+    background: url('') center no-repeat;
+    background-color: #3726bd;
+    background-size: cover;
+    box-shadow: 0.5px 0.866px 10px 0px rgba(0, 0, 0, 0.3);
+    width: 78px;
+    height: 78px;
+}
+
+.person--info {
+    padding: 30px 0 30px 90px;
+}
+
+.person--full-name {
+    color: #333;
+    font-weight: 600;
+    line-height: 1;
+    height: 18px;
+    overflow:hidden;
+}
+
+.person--position {
+    font-size: 14px;
+    font-weight: 200;
+    color: #333;
+    line-height: 1;
+    height: 14px;
+    overflow: hidden;
+}
+
+.skills-list,
+.skill-categories {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.skills-list {
+    padding-top: 10px;
+    border-top: 1px dashed #d0d0d0;
+}
+
+
+.skill,
+.skill-category {
+    display: inline-block;
+    font-size: 14px;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid #d0d0d0;
+    margin: 3px 0;
+}
+
+.skill {
+    margin: 5px;
+}
+.skills-list > .active,
+.skill-categories > .active {
+    border: 1px solid #2cb25c;
+    background: #2cb25c;
+    border: none;
+    color: #fff;
+}
+
+.navbar-default {
+    background: transparent !important;
+    border: none !important;
+}
+

@@ -1,0 +1,23 @@
+json_login_path:
+    path: /zlogin
+    defaults: { _controller: AppBundle:Homepage:zlogin }
+
+test_page:
+    path: /test
+    defaults: { _controller: AppBundle:Tests:test }
+
+homepage:
+    path: /
+    defaults: { _controller: AppBundle:Homepage:front }
+
+profile_avail:
+    path: /toggle_avail
+    defaults: { _controller: AppBundle:User:updateAvailability }
+
+personal_profile:
+    path: /knowledge
+    defaults: { _controller: AppBundle:User:getPersonalProfile }
+
+user_profile:
+    path: /user/{id}
+    defaults: { _controller: AppBundle:User:getUserProfile }

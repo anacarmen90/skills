@@ -1,0 +1,57 @@
+---
+# Project source deployment.
+project_deploy_key: id_rsa
+project_root: /var/www/wdyk
+project_change_dirs_config: "{{ not omit_apps_dirs_config|default(false) }}"
+project_git_repo: ssh://git@git.zitec.ro:6246/andrei.ciovica/wdyk.git
+project_version: "{{ branch }}"
+project_deploy_strategy: git
+
+# Project files configuration.
+project_templates:
+  - name: Symfony parameters
+    src: "{{ playbook_dir }}/templates/parameters.yml.tpl"
+    dest: app/config/parameters.yml
+
+project_shared_children:
+  - path: var/logs
+    src: logs
+
+project_writable_resources: [var/cache, var/logs, var/sessions, web/bundles]
+project_unwanted_items: [.git, web/config.php]
+
+# Project dependencies install.
+project_environment:
+  SYMFONY_ENV: dev
+
+project_has_bower: false
+project_has_composer: true
+project_composer_binary: composer
+project_command_for_composer_install: "{{ project_composer_binary }} install --no-interaction --no-progress --optimize-autoloader"
+project_copy_previous_composer_vendors: true
+
+# Hooks.
+project_deploy_hook_on_finalize: "{{ playbook_dir }}/hooks/on_finalize.yml"
+project_deploy_hook_post_finalize: "{{ playbook_dir }}/hooks/post_finalize.yml"
+
+# PHP-FPM configuration.
+php_fpm:
+  enabled: true
+  service_name: php7.1-fpm
+  user: www-data
+  group: www-data
+
+# define npm settings
+project_has_npm: true
+project_npm_binary: npm
+project_command_for_npm_install: "{{ project_npm_binary }} install"
+project_copy_previous_npm_modules: true
+project_npm_modules_path: node_modules
+
+
+# Symfony parameters.
+parameters:
+  database_server: "{{ database.host }}"
+  database_user: "{{ database.user }}"
+  database_password: "{{ database.password }}"
+  database_name: "{{ database.name }}"

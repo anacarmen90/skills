@@ -1,0 +1,10 @@
+---
+apps:
+  wdyk:
+    docroot: /var/www/wdyk
+    public: /var/www/wdyk/web
+    servername: wdyk.local
+    template: symfony.local.tpl
+    fastcgi_pass: unix:/var/run/php/php7.1-fpm.sock
+    certificate_path: /etc/ssl/symfonydemo.crt
+    certificate_key_path: /etc/ssl/symfonydemo.key
